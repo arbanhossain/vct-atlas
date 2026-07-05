@@ -1,0 +1,13 @@
+# tooling / os
+.DS_Store
+node_modules/
+*.log
+*.bak
+
+# netlify local state (link with `netlify link`)
+.netlify/
+
+# never commit raw data dumps or the scraper source
+# (kept out by construction, but guard against accidental copies)
+players_raw/
+*.zip

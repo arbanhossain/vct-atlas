@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VCT Atlas — Valorant Champions Tour, visualized</title>
+<meta name="description" content="A growing collection of visualizations of Valorant Champions Tour (VCT) data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#1a1f2b; --body:#3c4250; --muted:#7a828f; --line:#e6e8ec; --accent:#4e79a7; }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:#ffffff;color:var(--body);
+    font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6}
+  .wrap{max-width:960px;margin:0 auto;padding:0 26px}
+  header{padding:80px 0 40px;border-bottom:1px solid var(--line)}
+  h1{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:52px;
+    letter-spacing:-.5px;color:var(--ink);margin:0 0 12px}
+  header p{font-size:17px;color:var(--muted);margin:0;max-width:620px}
+  section{padding:44px 0}
+  .eyebrow{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted);margin:0 0 20px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+  .card{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);
+    border-radius:14px;padding:24px;transition:box-shadow .15s ease,transform .15s ease,border-color .15s ease}
+  .card:hover{box-shadow:0 10px 30px rgba(26,31,43,.08);transform:translateY(-2px);border-color:#d3d8e0}
+  .card h2{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:22px;
+    color:var(--ink);margin:0 0 8px}
+  .card p{font-size:14px;color:var(--muted);margin:0 0 16px}
+  .card .go{font-size:13px;font-weight:600;color:var(--accent)}
+  .swatch{display:flex;gap:6px;margin-bottom:16px}
+  .swatch span{width:34px;height:8px;border-radius:4px}
+  .card.soon{opacity:.7;cursor:default}
+  .card.soon .go{color:var(--muted)}
+  footer{border-top:1px solid var(--line);padding:26px 0 60px;font-size:12.5px;color:var(--muted)}
+  footer a{color:var(--accent);text-decoration:none}
+  footer a:hover{text-decoration:underline}
+</style></head>
+<body>
+<header><div class="wrap">
+  <h1>VCT&nbsp;Atlas</h1>
+  <p>A growing collection of visualizations exploring Valorant Champions Tour data — teams,
+     players, regions and the stories in the numbers.</p>
+</div></header>
+
+<section><div class="wrap">
+  <p class="eyebrow">Visualizations</p>
+  <div class="grid">
+
+    <a class="card" href="talent-flow/">
+      <div class="swatch">
+        <span style="background:#edc948"></span><span style="background:#59a14f"></span>
+        <span style="background:#e15759"></span><span style="background:#4e79a7"></span>
+      </div>
+      <h2>Where Talent Comes From</h2>
+      <p>A Sankey diagram mapping every Tier&nbsp;1 VCT player's nationality to the leagues
+         they've played in — Americas, EMEA, Pacific and China (2023–2026).</p>
+      <span class="go">View visualization →</span>
+    </a>
+    <a class="card" href="player-galaxy/">
+      <div class="swatch">
+        <span style="background:hsl(5,64%,52%)"></span><span style="background:hsl(262,55%,60%)"></span>
+        <span style="background:hsl(168,58%,42%)"></span><span style="background:hsl(212,58%,52%)"></span>
+      </div>
+      <h2>Players by Playstyle</h2>
+      <p>A PCA of nine per-map stats placing every VCT international player on a 2D map of
+         playstyle — fraggers, entries and support all separating out by role.</p>
+      <span class="go">View visualization →</span>
+    </a>
+
+    <a class="card" href="role-fit/">
+      <div class="swatch">
+        <span style="background:hsl(5,64%,52%)"></span><span style="background:hsl(262,55%,60%)"></span>
+        <span style="background:hsl(168,58%,42%)"></span><span style="background:hsl(212,58%,52%)"></span>
+      </div>
+      <h2>Role Fit</h2>
+      <p>For players who've played more than one role, how good are they at each — ranked against
+         everyone else who plays that role, so the roles compare fairly.</p>
+      <span class="go">View visualization →</span>
+    </a>
+
+    <div class="card soon">
+      <h2>More coming soon</h2>
+      <p>Additional visualizations will be added to the atlas over time.</p>
+      <span class="go">In progress</span>
+    </div>
+
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  Unofficial, fan-made project for research and educational purposes. Data compiled from
+  publicly available match and roster data on <a href="https://www.vlr.gg" target="_blank" rel="noopener">vlr.gg</a>.
+  Not affiliated with, endorsed by, or sponsored by Riot Games or vlr.gg. VALORANT and VALORANT
+  Champions Tour (VCT) are trademarks of Riot Games, Inc.
+</div></footer>
+</body></html>
