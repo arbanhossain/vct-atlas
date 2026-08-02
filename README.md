@@ -12,6 +12,7 @@ data, built from publicly available match and roster data on [vlr.gg](https://ww
 | **Where Talent Comes From** (`site/talent-flow/`) | A Sankey linking every Tier‑1 VCT league player's nationality to the leagues they've played in — Americas, EMEA, Pacific, China (2023–2026). |
 | **Players by Playstyle** (`site/player-galaxy/`) | A PCA of nine per‑map stats placing every VCT international player on a 2‑D map of playstyle. Roles separate on their own. Zoomable, with a min‑maps slider. |
 | **Role Fit** (`site/role-fit/`) | For players who've played more than one role, how good they are at each — scored as a within‑role percentile so the roles compare fairly. |
+| **Guess the Player** (`site/guess-the-player/`) | A game: one Tier‑1 player, revealed only through the teams they've played for, oldest first. Guess wrong and the next team on the timeline opens up. |
 
 Each page is a **self‑contained HTML file** (ECharts / Plotly and web fonts are inlined),
 so the site is just static files.
@@ -21,15 +22,18 @@ so the site is just static files.
 ```
 site/                      the deployable website (static HTML)
   index.html               landing page
-  talent-flow/  player-galaxy/  role-fit/
+  talent-flow/  player-galaxy/  role-fit/  guess-the-player/
 scripts/                   the code that generates the pages
-  build_galaxy.js          -> site/player-galaxy/index.html   (from data/galaxy_full.json)
-  build_role_fit.js        -> site/role-fit/index.html        (from data/role_fit.json)
-  make_sankey.py           -> site/talent-flow/index.html     (from data/vct_players.csv)
+  build_galaxy.js          -> site/player-galaxy/index.html    (from data/galaxy_full.json)
+  build_role_fit.js        -> site/role-fit/index.html         (from data/role_fit.json)
+  make_sankey.py           -> site/talent-flow/index.html      (from data/vct_players.csv)
+  build_guess_game.js      -> site/guess-the-player/index.html (from data/player_careers.json)
   build_agent_meta.js      agent-meta streamgraph (not published — see note below)
   build_atlas.py           produces the atlas_data aggregates (needs raw match data)
   galaxy_full.py           produces data/galaxy_full.json      (needs raw match data)
   rescrape.py              produces data/vct_players.csv        (scrapes vlr.gg live)
+  build_player_careers.py  produces data/player_careers.json    (needs the raw per-player
+                            team-history profiles — see note below)
   assets/                  echarts.min.js, fonts-inline.css (inlined into pages)
   data/                    small processed inputs the page builders consume
 ```
@@ -40,9 +44,10 @@ The three published pages regenerate from the committed inputs in `scripts/data/
 no external data or network needed:
 
 ```bash
-node   scripts/build_galaxy.js   site/player-galaxy/index.html
-node   scripts/build_role_fit.js site/role-fit/index.html
-python scripts/make_sankey.py    # writes site/talent-flow/index.html
+node   scripts/build_galaxy.js     site/player-galaxy/index.html
+node   scripts/build_role_fit.js   site/role-fit/index.html
+python scripts/make_sankey.py      # writes site/talent-flow/index.html
+node   scripts/build_guess_game.js # writes site/guess-the-player/index.html
 ```
 
 ## Data provenance
@@ -51,8 +56,8 @@ The **raw per‑event match data** and the **vlrggapi scraper** used to collect 
 intentionally **not** part of this repo — they live in a separate data workspace. What
 is committed here is the website plus the small, already‑processed inputs in
 `scripts/data/`. The `*.py` scripts that build those inputs (`galaxy_full.py`,
-`rescrape.py`, `build_atlas.py`) are included for reference but require that external
-raw data / live vlr.gg access to run.
+`rescrape.py`, `build_atlas.py`, `build_player_careers.py`) are included for reference but
+require that external raw data / live vlr.gg access to run.
 
 > **agent-meta:** an "agent meta over time" streamgraph also exists
 > (`scripts/build_agent_meta.js`) but is deliberately not part of the published site.
