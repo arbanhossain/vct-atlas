@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-// all 406 players, each projected onto the PCA fit on the >=25-map players
+// all players, each projected onto the PCA fit on the >=25-map players
 // (produced by galaxy_full.py — the >=25 coords match atlas.html exactly)
 const FULL = JSON.parse(fs.readFileSync(__dirname + "/data/galaxy_full.json", "utf8"));
 
@@ -115,10 +115,10 @@ const html = `<!doctype html>
 
 <footer id="disclaimer">
   <h2>About this data</h2>
-  <p><strong>What this shows.</strong> Each dot is one of the 406 players who appeared at a VCT
+  <p><strong>What this shows.</strong> Each dot is one of the ${FULL.total} players who appeared at a VCT
   international event (2021&ndash;2026). Use the <strong>min&#8209;maps slider</strong> to set how
   many international maps a player must have played to appear &mdash; it defaults to 25, which shows
-  the 148 established regulars; drag it down to reveal one&#8209;off and short&#8209;stint players
+  the ${FULL.fitCount} established regulars; drag it down to reveal one&#8209;off and short&#8209;stint players
   (whose positions are noisier, since they average over far fewer maps). Their position comes from a
   principal component analysis (PCA) of nine per&#8209;map performance stats, reduced to two axes.
   The PCA is fit on the 25+&#8209;map players and everyone else is projected onto it. The
@@ -129,7 +129,7 @@ const html = `<!doctype html>
   reveal. Hover any dot for the player and their rating, ACS and map count.</p>
   <p><strong>Source.</strong> Compiled from publicly available match data on
   <a href="https://www.vlr.gg" target="_blank" rel="noopener">vlr.gg</a>, reflecting stats recorded
-  at the time of collection (July 2026).</p>
+  at the time of collection (October 2026).</p>
 
   <h2>How the metrics are calculated</h2>
   <p>Each player is summarised by <strong>nine per&#8209;map averages</strong>, taken across every

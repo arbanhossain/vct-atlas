@@ -31,6 +31,8 @@ scripts/                   the code that generates the pages
   build_agent_meta.js      agent-meta streamgraph (not published — see note below)
   build_atlas.py           produces the atlas_data aggregates (needs raw match data)
   galaxy_full.py           produces data/galaxy_full.json      (needs raw match data)
+  build_role_fit_data.py   produces data/role_fit.json         (needs raw match data)
+  build_stream_data.py     produces data/stream.json           (needs raw match data)
   rescrape.py              produces data/vct_players.csv        (scrapes vlr.gg live)
   build_player_careers.py  produces data/player_careers.json    (needs the raw per-player
                             team-history profiles — see note below)
@@ -40,7 +42,7 @@ scripts/                   the code that generates the pages
 
 ## Rebuilding the pages
 
-The three published pages regenerate from the committed inputs in `scripts/data/`,
+The four published pages regenerate from the committed inputs in `scripts/data/`,
 no external data or network needed:
 
 ```bash
@@ -58,6 +60,16 @@ is committed here is the website plus the small, already‑processed inputs in
 `scripts/data/`. The `*.py` scripts that build those inputs (`galaxy_full.py`,
 `rescrape.py`, `build_atlas.py`, `build_player_careers.py`) are included for reference but
 require that external raw data / live vlr.gg access to run.
+
+To refresh the published international-event visualizations after collecting new matches:
+
+```bash
+python scripts/galaxy_full.py scripts/data/galaxy_full.json
+python scripts/build_role_fit_data.py
+python scripts/build_stream_data.py
+node scripts/build_galaxy.js site/player-galaxy/index.html
+node scripts/build_role_fit.js site/role-fit/index.html
+```
 
 > **agent-meta:** an "agent meta over time" streamgraph also exists
 > (`scripts/build_agent_meta.js`) but is deliberately not part of the published site.
