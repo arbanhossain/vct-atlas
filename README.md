@@ -13,6 +13,7 @@ data, built from publicly available match and roster data on [vlr.gg](https://ww
 | **Players by Playstyle** (`site/player-galaxy/`) | A PCA of nine per‑map stats placing every VCT international player on a 2‑D map of playstyle. Roles separate on their own. Zoomable, with a min‑maps slider. |
 | **Role Fit** (`site/role-fit/`) | For players who've played more than one role, how good they are at each — scored as a within‑role percentile so the roles compare fairly. |
 | **Guess the Player** (`site/guess-the-player/`) | A game: one Tier‑1 player, revealed only through the teams they've played for, oldest first. Guess wrong and the next team on the timeline opens up. |
+| **International Kill Leaders** (`site/kill-leaders/`) | Every player's career kills at VCT international events, with an expandable match-by-match breakdown ordered newest first. |
 
 Each page is a **self‑contained HTML file** (ECharts / Plotly and web fonts are inlined),
 so the site is just static files.
@@ -22,12 +23,13 @@ so the site is just static files.
 ```
 site/                      the deployable website (static HTML)
   index.html               landing page
-  talent-flow/  player-galaxy/  role-fit/  guess-the-player/
+  talent-flow/  player-galaxy/  role-fit/  guess-the-player/  kill-leaders/
 scripts/                   the code that generates the pages
   build_galaxy.js          -> site/player-galaxy/index.html    (from data/galaxy_full.json)
   build_role_fit.js        -> site/role-fit/index.html         (from data/role_fit.json)
   make_sankey.py           -> site/talent-flow/index.html      (from data/vct_players.csv)
   build_guess_game.js      -> site/guess-the-player/index.html (from data/player_careers.json)
+  build_kill_leaderboard.js -> site/kill-leaders/index.html    (from data/kill_leaderboard.json)
   build_agent_meta.js      agent-meta streamgraph (not published — see note below)
   build_atlas.py           produces the atlas_data aggregates (needs raw match data)
   galaxy_full.py           produces data/galaxy_full.json      (needs raw match data)
@@ -36,13 +38,14 @@ scripts/                   the code that generates the pages
   rescrape.py              produces data/vct_players.csv        (scrapes vlr.gg live)
   build_player_careers.py  produces data/player_careers.json    (needs the raw per-player
                             team-history profiles — see note below)
+  build_kill_leaderboard_data.py produces data/kill_leaderboard.json (needs raw match data)
   assets/                  echarts.min.js, fonts-inline.css (inlined into pages)
   data/                    small processed inputs the page builders consume
 ```
 
 ## Rebuilding the pages
 
-The four published pages regenerate from the committed inputs in `scripts/data/`,
+The five published pages regenerate from the committed inputs in `scripts/data/`,
 no external data or network needed:
 
 ```bash
@@ -50,6 +53,7 @@ node   scripts/build_galaxy.js     site/player-galaxy/index.html
 node   scripts/build_role_fit.js   site/role-fit/index.html
 python scripts/make_sankey.py      # writes site/talent-flow/index.html
 node   scripts/build_guess_game.js # writes site/guess-the-player/index.html
+node   scripts/build_kill_leaderboard.js # writes site/kill-leaders/index.html
 ```
 
 ## Data provenance
@@ -67,8 +71,10 @@ To refresh the published international-event visualizations after collecting new
 python scripts/galaxy_full.py scripts/data/galaxy_full.json
 python scripts/build_role_fit_data.py
 python scripts/build_stream_data.py
+python scripts/build_kill_leaderboard_data.py
 node scripts/build_galaxy.js site/player-galaxy/index.html
 node scripts/build_role_fit.js site/role-fit/index.html
+node scripts/build_kill_leaderboard.js site/kill-leaders/index.html
 ```
 
 > **agent-meta:** an "agent meta over time" streamgraph also exists
